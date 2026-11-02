@@ -34,10 +34,8 @@ app.post('/render', async (req, res) => {
     });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => {
-    console.log(`Hyperframes API running on port ${port}`);
-});
+// ВАЖНО: Railway передает порт через переменную окружения PORT
+const port = process.env.PORT || 8080;
 
 // Слушаем на 0.0.0.0, чтобы Railway мог подключиться
 app.listen(port, "0.0.0.0", () => {
