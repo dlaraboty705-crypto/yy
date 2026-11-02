@@ -14,7 +14,8 @@ app.post('/render', async (req, res) => {
 
     fs.writeFileSync(htmlPath, html);
 
-    exec(`hyperframes render ${htmlPath} -o ${videoPath} --fps 30 --width 1080 --height 1920`, (error, stdout, stderr) => {
+    // Используем правильные флаги для Hyperframes
+    exec(`hyperframes render ${htmlPath} -o ${videoPath} --fps 30 --resolution portrait`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             return res.status(500).send(`Render failed: ${stderr}`);
