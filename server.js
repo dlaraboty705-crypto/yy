@@ -10,7 +10,6 @@ app.post('/render', async (req, res) => {
     if (!html) return res.status(400).send('No HTML provided');
 
     const timestamp = Date.now();
-    // Создаем временную папку для проекта
     const projectDir = `/tmp/project_${timestamp}`;
     fs.mkdirSync(projectDir, { recursive: true });
 
@@ -19,7 +18,7 @@ app.post('/render', async (req, res) => {
 
     fs.writeFileSync(htmlPath, html);
 
-    // Запускаем рендеринг из папки проекта, используя флаг -c
+    // Запускаем рендеринг из папки проекта, указывая файл через -c
     exec(`cd ${projectDir} && hyperframes render -c index.html -o output.mp4 --fps 30`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
@@ -27,12 +26,15 @@ app.post('/render', async (req, res) => {
         }
         
         res.sendFile(videoPath, () => {
-            // Очищаем временную папку после отправки
             try {
                 fs.rmSync(projectDir, { recursive: true, force: true });
             } catch (e) {}
         });
     });
+});
+
+app.listen(3000, () => {
+    console.log('Hyperframes API running on port 3000');
 });
 
 app.listen(3000, () => {
