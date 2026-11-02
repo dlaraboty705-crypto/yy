@@ -11,12 +11,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* && fc-cache -fv
 
 RUN npm install -g hyperframes
-RUN npm install -g express
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 WORKDIR /project
+
+# Копируем package.json и server.js
+COPY package.json .
 COPY server.js .
+
+# Устанавливаем express локально
+RUN npm install
 
 EXPOSE 3000
 
